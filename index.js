@@ -11,8 +11,17 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+// TODO
+const multer = require('multer')
+const upFile = multer({ storage: multer.memoryStorage() });
 
-
+app.post("/api/fileanalyse", upFile.single('upfile'), (req, res) => {
+  res.json({
+    name: req.file.originalname,
+    type: req.file.mimetype,
+    size: req.file.size
+  })
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
